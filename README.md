@@ -117,17 +117,21 @@ git switch main
 
 | Profile | Board | Purpose | Protocol / transport | Switches | Status |
 |---|---|---|---|---|---|
-| `node` | `RS485_MAX13487E` | network node: Wi-Fi, Ethernet, provisioning portal, OTA, mDNS (fw-platform alone) | none | `WIFI ETHERNET PROVISIONING OTA MDNS` | scaffold and build covered by `run_all.ps1` |
+| `node` | `ESP32_LAN_RS485_V1_0_2` | network node: Wi-Fi, Ethernet, provisioning portal, OTA, mDNS (fw-platform alone) | none | `WIFI ETHERNET PROVISIONING OTA MDNS` | scaffold and build covered by `run_all.ps1` |
 | `scale-flintec-rs232` | `RS232_V3` | scale weight to MQTT, Flintec indicator on RS-232 | Flintec FT-111 / FT210 continuous output, streamed, 9600 8N1, kg | `WIFI ETHERNET PROVISIONING MQTT SERIAL SCALE_LINK SCALE_PUBLISH` | matches the Flintec indicator in use; NOT verified on the bench |
-| `scale-cas-rs485` | `RS485_MAX13487E` | scale weight to MQTT, CAS CI-150A on RS-485 | CAS CI-150A polled (`ddRW`, device id 1, 9600 8N1) | same as above | matches the CAS CI-150A in use; NOT verified on the bench |
+| `scale-cas-rs485` | `ESP32_LAN_RS485_V1_0_2` | scale weight to MQTT, CAS CI-150A on RS-485 | CAS CI-150A polled (`ddRW`, device id 1, 9600 8N1) | same as above | matches the CAS CI-150A in use; NOT verified on the bench |
 | `scale-rs232` | `RS232_V3` | variant: CAS on RS-232 | CAS CI-150A polled, 9600 8N1 | same as above | variant, no known matching hardware |
-| `scale-rs485` | `RS485_MAX13487E` | variant: Flintec on RS-485 | Flintec continuous output, 9600 8N1, kg | same as above | variant, no known matching hardware |
-| `vfd-modbus` | `RS485_MAX13487E` | VFD gateway: MicroPython application polls drives on both RS-485 buses, state over MQTT | Modbus RTU, read only (function codes 1 and 3), MQTT | `WIFI ETHERNET PROVISIONING OTA MQTT MODBUS MICROPYTHON VFD_RULES VFD_POLLING SERIAL` | NOT verified on the bench |
+| `scale-rs485` | `ESP32_LAN_RS485_V1_0_2` | variant: Flintec on RS-485 | Flintec continuous output, 9600 8N1, kg | same as above | variant, no known matching hardware |
+| `vfd-modbus` | `ESP32_LAN_RS485_V1_0_2` | VFD gateway: MicroPython application polls drives on both RS-485 buses, state over MQTT | Modbus RTU, read only (function codes 1 and 3), MQTT | `WIFI ETHERNET PROVISIONING OTA MQTT MODBUS MICROPYTHON VFD_RULES VFD_POLLING SERIAL` | NOT verified on the bench |
 
 Common to the four scale profiles: weight is published to `cas/<device>/telemetry/weight`, OTA is
 off, and only fw-platform and fw-app are pulled. `vfd-modbus` pulls all three layers and has two OTA
 slots. `mp_node` (the platform's own MicroPython test product, `fw-platform/tests/products/mp_node`)
 is a test product, not a profile.
+
+The RS-485 board is `ESP32_LAN_RS485_V1_0_2` (display name `ESP32_lan_rs485_v1.0.2`).
+
+Feature switches: see `fw-app/templates/FEATURES.md` and `python fw-app\tools\new_product.py --list-features`.
 
 Measured image sizes (IDF 6.1, from `fw-platform/docs/MICROPYTHON.md`): `mp_node.bin` 1,214,112
 bytes (16.5 percent of the 0x700000 slot `ota_0`); a scratch product with the Modbus bridge

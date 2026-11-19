@@ -1,0 +1,9 @@
+[submodule "fw-platform"]
+	path = fw-platform
+	url = https://github.com/Wendell-BitsDev/fw-platform.git
+[submodule "fw-logic"]
+	path = fw-logic
+	url = https://github.com/Wendell-BitsDev/fw-logic.git
+[submodule "fw-app"]
+	path = fw-app
+	url = https://github.com/Wendell-BitsDev/fw-app.git
